@@ -3,13 +3,17 @@ import { render } from '../dom/render';
 import { readRegForm, readLoginForm } from '../state/auth-store';
 import { registerUser, loginUser } from '../api/auth';
 import { setCurrentUser } from '../state/auth-store';
+import { readBikeForm } from '../state/bike-store';
+import { createBikeApi } from '../api/bikes';
+import { refreshBikes } from '../state/state-store';
 
 type Action =
   | 'show-login-form'
   | 'show-register-form'
   | 'login'
   | 'register'
-  | 'logout';
+  | 'logout'
+  | 'save-bike';
 
 function bindEvents(): void {
   document.addEventListener('click', async (e: MouseEvent) => {
@@ -25,7 +29,6 @@ function bindEvents(): void {
       case 'show-login-form': {
         const forms = document.querySelectorAll('form');
         forms.forEach((form) => (form as HTMLFormElement).reset());
-
         render.loginScreen();
         break;
       }
@@ -79,6 +82,29 @@ function bindEvents(): void {
       case 'logout':
         setCurrentUser(null);
         render.initialScreen();
+        break;
+
+      case 'save-bike':
+        const addBikeForm = (dom.addBikeForm as HTMLFormElement) || null;
+        if (!addBikeForm) throw new Error('Missing add bike form');
+
+        try {
+          const input = readBikeForm(addBikeForm);
+
+          await createBikeApi({
+            make: input.make,
+            model: input.model,
+            year: Number(input.year),
+          });
+
+          await refreshBikes();
+          addBikeForm.reset();
+          render.bikeScreen();
+        } catch (error) {
+          error instanceof Error
+            ? render.errorMessage(error.message, action)
+            : render.errorMessage('Something went wrong', action);
+        }
         break;
     }
   });

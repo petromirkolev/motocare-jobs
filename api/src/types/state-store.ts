@@ -1,11 +1,14 @@
 import { fetchBikes } from '../api/bikes';
-
+import { fetchMaintenanceByBikeId } from '../api/maintenance';
+import { fetchMaintenanceLogsByBikeId } from '../api/maintenance-logs';
 import type { StoreState } from '../types/state';
 
 const listeners = new Set<() => void>();
 
 let state: StoreState = {
   bikes: [],
+  maintenance: [],
+  maintenanceLog: [],
 };
 
 async function initState(): Promise<void> {
@@ -19,10 +22,14 @@ async function loadState(): Promise<StoreState> {
 
     return {
       bikes: Array.isArray(bikes) ? bikes : [],
+      maintenance: [],
+      maintenanceLog: [],
     };
   } catch {
     return {
       bikes: [],
+      maintenance: [],
+      maintenanceLog: [],
     };
   }
 }
@@ -52,6 +59,28 @@ async function refreshBikes(): Promise<void> {
   notify();
 }
 
+async function refreshMaintenance(bikeId: string): Promise<void> {
+  const maintenance = await fetchMaintenanceByBikeId(bikeId);
+
+  state = {
+    ...state,
+    maintenance: Array.isArray(maintenance) ? maintenance : [],
+  };
+
+  notify();
+}
+
+async function refreshMaintenanceLogs(bikeId: string): Promise<void> {
+  const maintenanceLog = await fetchMaintenanceLogsByBikeId(bikeId);
+
+  state = {
+    ...state,
+    maintenanceLog: Array.isArray(maintenanceLog) ? maintenanceLog : [],
+  };
+
+  notify();
+}
+
 function notify() {
   listeners.forEach((fn) => fn());
 }
@@ -70,4 +99,6 @@ export {
   getState,
   updateState,
   refreshBikes,
+  refreshMaintenance,
+  refreshMaintenanceLogs,
 };

@@ -190,7 +190,7 @@
             <div class="panel-header" data-testid="header-bikes">
               <h2 data-testid="heading-bikes">Bikes</h2>
               <p data-testid="text-bikes-description">
-                Add motorcycles and manage the list owned by the current user
+                Add motorcycles that you want to manage
               </p>
             </div>
 
@@ -228,16 +228,6 @@
                     data-testid="input-bike-year" />
                 </label>
 
-                <label for="bike-nickname">
-                  Nickname
-                  <input
-                    id="bike-nickname"
-                    name="nickname"
-                    type="text"
-                    placeholder="Blue beast"
-                    data-testid="input-bike-nickname" />
-                </label>
-
                 <div data-testid="message-bike-error"></div>
 
                 <button
@@ -256,33 +246,7 @@
                   >
                 </div>
 
-                <div class="bike-list" data-testid="list-bikes">
-                  <article
-                    class="card bike-card"
-                    data-testid="card-bike"
-                    data-bike-id="bike-1">
-                    <div>
-                      <h4 data-testid="text-bike-name">Yamaha Tracer 9 GT</h4>
-                      <p class="muted" data-testid="text-bike-meta">
-                        2021 • Blue beast
-                      </p>
-                    </div>
-                    <span class="tag" data-testid="tag-bike-ready">Ready</span>
-                  </article>
-
-                  <article
-                    class="card bike-card"
-                    data-testid="card-bike"
-                    data-bike-id="bike-2">
-                    <div>
-                      <h4 data-testid="text-bike-name">Honda Hornet 600</h4>
-                      <p class="muted" data-testid="text-bike-meta">
-                        2005 • Naked project
-                      </p>
-                    </div>
-                    <span class="tag" data-testid="tag-bike-ready">Ready</span>
-                  </article>
-                </div>
+                <div class="bike-list" data-testid="list-bikes"></div>
 
                 <div class="is-hidden" data-testid="empty-bikes">
                   No bikes added yet.

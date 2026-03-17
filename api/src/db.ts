@@ -30,4 +30,22 @@ export const db = new sqlite3.Database(DB_PATH, (err) => {
       }
     },
   );
+
+  db.run(
+    `CREATE TABLE IF NOT EXISTS bikes (
+      id TEXT PRIMARY KEY,
+      user_id TEXT NOT NULL,
+      make TEXT NOT NULL,
+      model TEXT NOT NULL,
+      year INTEGER NOT NULL,
+      created_at TEXT NOT NULL,
+      FOREIGN KEY (user_id) REFERENCES users(id))
+      `,
+    (tableErr) => {
+      if (tableErr) {
+        console.error('Failed to create bikes table:', tableErr.message);
+        return;
+      }
+    },
+  );
 });
