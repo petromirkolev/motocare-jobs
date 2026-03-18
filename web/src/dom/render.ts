@@ -29,14 +29,16 @@ export const render = {
   async bikeScreen(): Promise<void> {
     showScreen('bikes');
     await refreshBikes();
+    await refreshJobs();
 
     dom.navBikes?.classList.add('active');
     dom.navJobs?.classList.remove('active');
 
     const grid = req(dom.bikeGrid, 'bikeGrid');
+
     grid.innerHTML = '';
 
-    const { bikes } = getState();
+    const { bikes, jobs } = getState();
     const currentUser = getCurrentUser();
 
     if (dom.currentUserEmail) {
@@ -50,8 +52,17 @@ export const render = {
         bikes.length === 1 ? '1 motorcycle' : `${bikes.length} motorcycles`;
     }
 
-    bikes.forEach(async (bike) => {
-      grid.appendChild(await createBikeCard(bike));
+    bikes.forEach((bike) => {
+      const hasOpenJobs = jobs.some((job) => {
+        return (
+          String(job.bike_id) === String(bike.id) &&
+          job.status !== 'done' &&
+          job.status !== 'cancelled'
+        );
+      });
+
+      const isReady = !hasOpenJobs;
+      grid.appendChild(createBikeCard(bike, isReady));
     });
 
     if (dom.emptyBikeGrid) {

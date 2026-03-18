@@ -27,6 +27,10 @@ async function listBikesByUserId(user_id) {
 }
 async function deleteBike(params) {
     await (0, db_helpers_1.runQuery)(`
+      DELETE FROM jobs
+      WHERE bike_id = ? AND user_id = ?
+    `, [params.id, params.user_id]);
+    await (0, db_helpers_1.runQuery)(`
       DELETE FROM bikes
       WHERE id = ? AND user_id = ?
     `, [params.id, params.user_id]);

@@ -254,33 +254,33 @@ function bindEvents(): void {
         break;
       }
       case 'filter-jobs-all': {
-        setActiveJobFilter(target);
+        setActiveJobFilter(el);
         const jobCards = document.querySelectorAll<HTMLElement>('.job-card');
         jobCards.forEach((card) => card.classList.remove('is-hidden'));
         break;
       }
       case 'filter-jobs-requested': {
-        setActiveJobFilter(target);
+        setActiveJobFilter(el);
         markJobs('requested');
         break;
       }
       case 'filter-jobs-approved': {
-        setActiveJobFilter(target);
+        setActiveJobFilter(el);
         markJobs('approved');
         break;
       }
       case 'filter-jobs-in-progress': {
-        setActiveJobFilter(target);
+        setActiveJobFilter(el);
         markJobs('in-progress');
         break;
       }
       case 'filter-jobs-done': {
-        setActiveJobFilter(target);
+        setActiveJobFilter(el);
         markJobs('done');
         break;
       }
       case 'filter-jobs-cancelled': {
-        setActiveJobFilter(target);
+        setActiveJobFilter(el);
         markJobs('cancelled');
         break;
       }

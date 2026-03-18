@@ -15,12 +15,12 @@ export function markJobs(status: string) {
   });
 }
 
-export function setActiveJobFilter(target: HTMLElement): void {
+export function setActiveJobFilter(el: HTMLElement): void {
   const filterButtons = document.querySelectorAll<HTMLElement>('.filter');
 
   filterButtons.forEach((button) => {
     button.classList.remove('active');
   });
 
-  target.classList.add('active');
+  el.classList.add('active');
 }

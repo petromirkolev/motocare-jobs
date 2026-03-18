@@ -390,8 +390,9 @@ textarea::placeholder {
   white-space: nowrap;
 }
 
-.notready {
-  background: rgba(224, 126, 126, 0.14);
+.danger-tag {
+  background: rgba(255, 122, 122, 0.14);
+  color: var(--danger);
 }
 
 .toolbar {

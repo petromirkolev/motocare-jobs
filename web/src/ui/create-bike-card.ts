@@ -1,8 +1,7 @@
-import { getJobsApi } from '../api/jobs';
 import { getCurrentUser } from '../state/auth-store';
 import type { Bike } from '../types/bikes';
 
-export async function createBikeCard(bike: Bike): Promise<HTMLElement> {
+export function createBikeCard(bike: Bike, isReady: boolean): HTMLElement {
   const id = String(bike.id);
   const user = getCurrentUser();
   if (!user) throw new Error('No user found');
@@ -36,21 +35,11 @@ export async function createBikeCard(bike: Bike): Promise<HTMLElement> {
     throw new Error('Bike card template missing expected elements');
   }
 
-  const jobs = await getJobsApi(user.id);
-
-  const allJobsDone = jobs.find((job: any) => {
-    return job.status !== 'done' && job.status !== 'cancelled';
-  });
-
-  if (allJobsDone) {
-    tagEl.textContent = 'Not ready';
-    tagEl.classList.add('notready');
-  } else {
-    tagEl.textContent = 'Ready';
-  }
-
   nameEl.textContent = bike.make;
   paraEl.textContent = `${bike.year} ${bike.make} ${bike.model}`;
+  tagEl.textContent = isReady ? 'Ready' : 'Not ready';
+
+  tagEl.classList.toggle('danger-tag', !isReady);
 
   return article;
 }
