@@ -26,9 +26,9 @@ The app currently supports:
 
 ## Project structure
 
-- "web/" — frontend
-- "api/" — backend API
-- "docs/" — screenshots / assets
+- "web/" - frontend
+- "api/" - backend API
+- "docs/" - screenshots / assets
 
 ## Running locally
 
