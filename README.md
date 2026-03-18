@@ -38,7 +38,11 @@ The app currently supports:
 cd api
 npm install
 npm run dev
-Web
+```
+
+### Web
+
+```bash
 cd web
 npm install
 npm run dev
