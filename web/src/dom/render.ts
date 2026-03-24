@@ -12,12 +12,13 @@ export const render = {
     showAuthForm('login');
     this.errorMessage('', 'login');
     this.errorMessage('', 'register');
-    dom.topBar?.classList.add('is-hidden');
+    this.topbar(false);
   },
 
   loginScreen(): void {
     showScreen('auth');
     showAuthForm('login');
+    this.topbar(false);
     this.errorMessage('', 'login');
     dom.loginButton?.classList.add('active');
     dom.registerButton?.classList.remove('active');
@@ -25,6 +26,7 @@ export const render = {
 
   registerScreen(): void {
     showScreen('auth');
+    this.topbar(false);
     showAuthForm('register');
     this.errorMessage('', 'register');
     dom.registerButton?.classList.add('active');
@@ -32,7 +34,16 @@ export const render = {
   },
 
   async bikeScreen(): Promise<void> {
+    const currentUser = getCurrentUser();
+
+    if (!currentUser) {
+      showScreen('auth');
+      return;
+    }
+
     showScreen('bikes');
+    this.topbar(true);
+
     await refreshBikes();
     await refreshJobs();
 
@@ -44,7 +55,6 @@ export const render = {
     grid.innerHTML = '';
 
     const { bikes, jobs } = getState();
-    const currentUser = getCurrentUser();
 
     if (dom.currentUserEmail) {
       dom.currentUserEmail.textContent = currentUser
@@ -88,6 +98,7 @@ export const render = {
     }
 
     showScreen('jobs');
+    this.topbar(true);
 
     dom.navJobs?.classList.add('active');
     dom.navBikes?.classList.remove('active');
@@ -148,8 +159,12 @@ export const render = {
     }
   },
 
-  topbar(): void {
-    dom.topBar?.classList.toggle('is-hidden');
+  topbar(isHidden: boolean): void {
+    if (isHidden) {
+      dom.topBar?.classList.remove('is-hidden');
+    } else {
+      dom.topBar?.classList.add('is-hidden');
+    }
   },
 
   errorMessage(
