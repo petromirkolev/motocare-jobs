@@ -1,13 +1,28 @@
 services:
+  postgres:
+    image: postgres:16
+    container_name: motocare-service-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: motocare_service_dev
+    ports:
+      - '5432:5432'
+    volumes:
+      - motocare_service_postgres_data:/var/lib/postgresql/data
+
   api:
     build: ./api
     container_name: motocare-service-api
     ports:
       - '3001:3001'
-    volumes:
-      - ./api/data:/app/data
     environment:
-      - DB_PATH=./data/motocareservice.sqlite
+      DATABASE_URL: postgres://postgres:postgres@postgres:5432/motocare_service_dev
+      PORT: 3001
+      NODE_ENV: development
+    depends_on:
+      - postgres
 
   web:
     build: ./web
@@ -16,3 +31,6 @@ services:
       - '4173:4173'
     depends_on:
       - api
+
+volumes:
+  motocare_service_postgres_data:
