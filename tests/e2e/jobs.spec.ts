@@ -24,6 +24,8 @@ test.describe('Jobs', () => {
 
       await jobsPage.page.reload();
 
+      await expect(jobsPage.pageBikes).toBeVisible();
+
       await jobsPage.gotoJobsPage();
 
       await jobsPage.expectJobVisible(seededJob.service);
