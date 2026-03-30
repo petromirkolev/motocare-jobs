@@ -24,7 +24,8 @@ test.describe('Jobs', () => {
 
       await jobsPage.page.reload();
 
-      await expect(jobsPage.pageBikes).toBeVisible();
+      await expect(jobsPage.jobsNav).toBeVisible();
+      await expect(jobsPage.jobsNav).toBeEnabled();
 
       await jobsPage.gotoJobsPage();
 
