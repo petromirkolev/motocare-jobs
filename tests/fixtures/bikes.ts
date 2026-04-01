@@ -1,10 +1,4 @@
-import { bikeStore } from '../../web/src/state/bike-store';
-import {
-  test as base,
-  expect,
-  uniqueEmail,
-  validInput,
-} from '../fixtures/auth';
+import { test as base, expect } from '../fixtures/auth';
 
 type BikeFixtures = {
   loggedInUser: {
@@ -24,27 +18,17 @@ type BikeFixtures = {
 };
 
 export const test = base.extend<BikeFixtures>({
-  loggedInUser: async ({ registerPage, loginPage }, use) => {
-    const email = uniqueEmail();
-    const password = validInput.password;
+  loggedInUser: async ({ registeredUser, loginPage }, use) => {
+    const email = registeredUser.email;
+    const password = registeredUser.password;
 
-    await registerPage.gotoreg();
-    await registerPage.register(email, password, password);
-    await registerPage.expectSuccess('Registration successful!');
+    await loginPage.goto();
 
     await expect(loginPage.loginForm).toBeVisible();
 
-    await loginPage.login(email, password);
+    await loginPage.login(registeredUser.email, registeredUser.password);
 
     await use({ email, password });
-  },
-
-  garageWithOneBike: async ({ loggedInUser, bikesPage, seededBike }, use) => {
-    const bike = seededBike;
-
-    await bikesPage.addBike(bike);
-
-    await use({ ...bike });
   },
 
   seededBike: async ({}, use) => {
@@ -57,6 +41,17 @@ export const test = base.extend<BikeFixtures>({
     };
     await use(seededBike);
   },
+
+  garageWithOneBike: async ({ loggedInUser, bikesPage, seededBike }, use) => {
+    const bike = seededBike;
+
+    await bikesPage.addBike(bike);
+
+    await bikesPage.expectBikeVisible(bike.make);
+    await expect(bikesPage.pageBikes).toBeVisible();
+
+    await use(bike);
+  },
 });
 
-export { expect, validInput, uniqueEmail };
+export { expect };

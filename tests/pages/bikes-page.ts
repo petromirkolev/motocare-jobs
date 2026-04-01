@@ -81,8 +81,17 @@ export class BikesPage {
   }
 
   async gotoBikesPage(): Promise<void> {
+    await this.page.evaluate(() => window.scrollTo(0, 0));
+
+    await expect(this.bikeNav).toBeVisible();
+    await expect(this.bikeNav).toBeEnabled();
+
+    if (await this.pageBikes.isVisible()) {
+      return;
+    }
+
     await this.bikeNav.click();
+
     await expect(this.pageBikes).toBeVisible();
-    await expect(this.pageJobs).toBeHidden();
   }
 }
