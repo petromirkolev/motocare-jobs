@@ -44,6 +44,7 @@ export class JobsPage {
 
     await expect(this.jobsNav).toBeVisible();
     await expect(this.jobsNav).toBeEnabled();
+    await expect(this.jobsNav).not.toHaveClass(/is-hidden/);
 
     if (await this.pageJobs.isVisible()) {
       return;

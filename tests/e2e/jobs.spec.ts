@@ -26,7 +26,6 @@ test.describe('Jobs', () => {
 
       await expect(jobsPage.jobsNav).toBeVisible();
       await expect(jobsPage.jobsNav).toBeEnabled();
-      await expect(jobsPage.jobsNav).not.toHaveClass(/is-hidden/);
 
       await jobsPage.gotoJobsPage();
       await jobsPage.expectJobVisible(seededJob.service);
