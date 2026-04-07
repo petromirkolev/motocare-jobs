@@ -15,7 +15,7 @@ test.describe('Jobs', () => {
       await jobsPage.expectJobVisible(seededJob.service);
     });
 
-    test('Created job persists after page reload', async ({
+    test.only('Created job persists after page reload', async ({
       seededJob,
       jobsPage,
     }) => {
@@ -26,6 +26,7 @@ test.describe('Jobs', () => {
 
       await expect(jobsPage.jobsNav).toBeVisible();
       await expect(jobsPage.jobsNav).toBeEnabled();
+      await expect(jobsPage.jobsNav).not.toHaveClass(/is-hidden/);
 
       await jobsPage.gotoJobsPage();
       await jobsPage.expectJobVisible(seededJob.service);
